@@ -64,7 +64,7 @@ def feedback_form():
             json.dump(users, f, indent=4)
         return redirect(url_for('thank_you'))
 
-        return render_template_string("""
+    return render_template_string("""
     <!DOCTYPE html>
     <html lang='en'>
     <head>
@@ -85,28 +85,29 @@ def feedback_form():
             <form method='post'>
                 <label for='role'>Role Applied For</label>
                 <input type='text' name='role' id='role' required>
-                
+
                 <label for='candidate_name'>Candidate Name</label>
                 <input type='text' name='candidate_name' id='candidate_name' required>
-                
+
                 <label for='status'>Status (Yes/No)</label>
                 <input type='text' name='status' id='status' required>
-                
+
                 <label for='positives'>Strengths</label>
                 <textarea name='positives' id='positives' required></textarea>
-                
+
                 <label for='areas_to_improve'>Areas to Improve</label>
                 <textarea name='areas_to_improve' id='areas_to_improve' required></textarea>
-                
+
                 <label for='additional_comments'>Additional Comments</label>
                 <textarea name='additional_comments' id='additional_comments'></textarea>
-                
+
                 <input class='button-primary' type='submit' value='Submit Feedback'>
             </form>
         </div>
     </body>
     </html>
     """, email=email)
+
 @app.route('/thank-you')
 def thank_you():
     return "Thank you for your feedback."
