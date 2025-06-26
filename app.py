@@ -1,4 +1,3 @@
-!pip install flask, gunicorn 
 from flask import Flask, render_template_string, request, redirect, url_for, session
 import json
 import datetime
