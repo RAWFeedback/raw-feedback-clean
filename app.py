@@ -23,6 +23,46 @@ else:
 
 limits = {'Starter': 10, 'Professional': 100, 'Enterprise': float('inf')}
 
+# ------------------------
+# Styled Login Template
+# ------------------------
+STYLED_LOGIN_TEMPLATE = """
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | RAW Feedback</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.min.css">
+  <style>
+    body { padding: 2rem; background: #f4f4f4; font-family: Arial, sans-serif; }
+    .container { max-width: 500px; margin: auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    h2 { text-align: center; }
+    p.tagline { text-align: center; color: #888; margin-bottom: 2rem; }
+    .error { color: red; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>RAW Feedback</h2>
+    <p class="tagline">Real. Actionable. Worthwhile.</p>
+    <form method="post">
+      <label for="email">Email:</label>
+      <input type="email" name="email" id="email" required>
+
+      <label for="password">Password:</label>
+      <input type="password" name="password" id="password" required>
+
+      <input class="button-primary" type="submit" value="Login">
+    </form>
+    {% if error %}
+      <p class="error">{{ error }}</p>
+    {% endif %}
+  </div>
+</body>
+</html>
+"""
+
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -32,9 +72,12 @@ def login():
         if user and user['password'] == password:
             session['email'] = email
             return redirect(url_for('feedback_form'))
-        return "Invalid credentials."
-    return '''<form method="post"><input name="email"><input name="password" type="password"><input type="submit"></form>'''
+        return render_template_string(STYLED_LOGIN_TEMPLATE, error="Invalid credentials.")
+    return render_template_string(STYLED_LOGIN_TEMPLATE, error=None)
 
+# ------------------------
+# Styled Feedback Form
+# ------------------------
 @app.route('/feedback', methods=['GET', 'POST'])
 def feedback_form():
     email = session.get('email')
@@ -108,10 +151,33 @@ def feedback_form():
     </html>
     """, email=email)
 
+# ------------------------
+# Thank You Page
+# ------------------------
 @app.route('/thank-you')
 def thank_you():
-    return "Thank you for your feedback."
+    return """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <title>Thank You!</title>
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.min.css'>
+        <style>
+            body { text-align: center; padding-top: 5rem; font-family: Arial, sans-serif; background: #f4f4f4; }
+            h2 { color: #333; }
+            a { color: #0074d9; text-decoration: underline; }
+        </style>
+    </head>
+    <body>
+        <h2>✅ Thank you for your feedback!</h2>
+        <p><a href="/feedback">Submit another</a></p>
+    </body>
+    </html>
+    """
 
+# ------------------------
+# Save Feedback to JSON
+# ------------------------
 def save_feedback(feedback, filename=FEEDBACK_FILE):
     try:
         with open(filename, "r") as file:
