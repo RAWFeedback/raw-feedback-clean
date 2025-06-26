@@ -64,8 +64,49 @@ def feedback_form():
             json.dump(users, f, indent=4)
         return redirect(url_for('thank_you'))
 
-    return f"<h1>Feedback Form for {email}</h1><form method='post'><input name='role'><input name='candidate_name'><input name='status'><textarea name='positives'></textarea><textarea name='areas_to_improve'></textarea><textarea name='additional_comments'></textarea><input type='submit'></form>"
-
+        return render_template_string("""
+    <!DOCTYPE html>
+    <html lang='en'>
+    <head>
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <title>RAW Feedback Form</title>
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.min.css'>
+        <style>
+            body { padding: 2rem; background: #f4f4f4; font-family: Arial, sans-serif; }
+            .container { max-width: 700px; margin: auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+            h2 { text-align: center; }
+        </style>
+    </head>
+    <body>
+        <div class='container'>
+            <h2>Submit Feedback</h2>
+            <p style='text-align:center; color: #888;'>for {{ email }}</p>
+            <form method='post'>
+                <label for='role'>Role Applied For</label>
+                <input type='text' name='role' id='role' required>
+                
+                <label for='candidate_name'>Candidate Name</label>
+                <input type='text' name='candidate_name' id='candidate_name' required>
+                
+                <label for='status'>Status (Yes/No)</label>
+                <input type='text' name='status' id='status' required>
+                
+                <label for='positives'>Strengths</label>
+                <textarea name='positives' id='positives' required></textarea>
+                
+                <label for='areas_to_improve'>Areas to Improve</label>
+                <textarea name='areas_to_improve' id='areas_to_improve' required></textarea>
+                
+                <label for='additional_comments'>Additional Comments</label>
+                <textarea name='additional_comments' id='additional_comments'></textarea>
+                
+                <input class='button-primary' type='submit' value='Submit Feedback'>
+            </form>
+        </div>
+    </body>
+    </html>
+    """, email=email)
 @app.route('/thank-you')
 def thank_you():
     return "Thank you for your feedback."
