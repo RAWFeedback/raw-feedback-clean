@@ -44,13 +44,15 @@ STYLED_LOGIN_TEMPLATE = """
       padding: 2rem;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h2 {
       text-align: center;
+    }
+    .logo {
+      max-width: 180px;
+      margin-bottom: 1rem;
     }
     .tagline {
-      text-align: center;
       color: #888;
+      margin-bottom: 2rem;
     }
     .error {
       background: #ffdddd;
@@ -59,13 +61,12 @@ STYLED_LOGIN_TEMPLATE = """
       padding: 10px;
       margin-top: 20px;
       border-radius: 5px;
-      text-align: center;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>RAW Feedback</h2>
+    <img src="/static/raw-feedback-logo.png" class="logo" alt="RAW Feedback Logo">
     <p class="tagline">Real. Actionable. Worthwhile.</p>
     <form method="post">
       <label for="email">Email:</label>
@@ -137,10 +138,12 @@ def feedback_form():
             body { padding: 2rem; background: #f4f4f4; font-family: Arial, sans-serif; }
             .container { max-width: 700px; margin: auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
             h2 { text-align: center; }
+            .logo { max-width: 180px; display: block; margin: 0 auto 1rem; }
         </style>
     </head>
     <body>
         <div class='container'>
+            <img src="/static/raw-feedback-logo.png" class="logo" alt="RAW Feedback Logo">
             <h2>Submit Feedback</h2>
             <p style='text-align:center; color: #888;'>for {{ email }}</p>
             <form method='post'>
@@ -181,9 +184,11 @@ def thank_you():
             body { text-align: center; padding-top: 5rem; font-family: Arial, sans-serif; background: #f4f4f4; }
             h2 { color: #333; }
             a { color: #0074d9; text-decoration: underline; }
+            .logo { max-width: 180px; margin-bottom: 1rem; }
         </style>
     </head>
     <body>
+        <img src="/static/raw-feedback-logo.png" class="logo" alt="RAW Feedback Logo">
         <h2>✅ Thank you for your feedback!</h2>
         <p><a href="/feedback">Submit another</a></p>
     </body>
