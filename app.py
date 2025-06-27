@@ -23,23 +23,44 @@ else:
 
 limits = {'Starter': 10, 'Professional': 100, 'Enterprise': float('inf')}
 
-# ------------------------
-# Styled Login Template
-# ------------------------
 STYLED_LOGIN_TEMPLATE = """
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login | RAW Feedback</title>
+  <title>RAW Feedback Login</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.min.css">
   <style>
-    body { padding: 2rem; background: #f4f4f4; font-family: Arial, sans-serif; }
-    .container { max-width: 500px; margin: auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    h2 { text-align: center; }
-    p.tagline { text-align: center; color: #888; margin-bottom: 2rem; }
-    .error { color: red; text-align: center; }
+    body {
+      padding: 2rem;
+      background: #f4f4f4;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+    }
+    .tagline {
+      text-align: center;
+      color: #888;
+    }
+    .error {
+      background: #ffdddd;
+      color: #a00;
+      border-left: 5px solid #f44336;
+      padding: 10px;
+      margin-top: 20px;
+      border-radius: 5px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -75,9 +96,6 @@ def login():
         return render_template_string(STYLED_LOGIN_TEMPLATE, error="Invalid credentials.")
     return render_template_string(STYLED_LOGIN_TEMPLATE, error=None)
 
-# ------------------------
-# Styled Feedback Form
-# ------------------------
 @app.route('/feedback', methods=['GET', 'POST'])
 def feedback_form():
     email = session.get('email')
@@ -151,9 +169,6 @@ def feedback_form():
     </html>
     """, email=email)
 
-# ------------------------
-# Thank You Page
-# ------------------------
 @app.route('/thank-you')
 def thank_you():
     return """
@@ -175,9 +190,6 @@ def thank_you():
     </html>
     """
 
-# ------------------------
-# Save Feedback to JSON
-# ------------------------
 def save_feedback(feedback, filename=FEEDBACK_FILE):
     try:
         with open(filename, "r") as file:
